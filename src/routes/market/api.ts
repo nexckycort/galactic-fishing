@@ -1,8 +1,8 @@
 interface MarketResponse {
-	items: Item[];
+	items: MarketItem[];
 }
 
-interface Item {
+export interface MarketItem {
 	id: string;
 	name: string;
 	type: string;
