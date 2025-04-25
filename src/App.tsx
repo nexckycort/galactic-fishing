@@ -2,7 +2,7 @@ import { createSignal } from "solid-js";
 
 import { Navbar } from "./components/navbar";
 import { Market } from "./routes/market/page";
-import { Leaderboard } from "./routes/leaderboard";
+import { Leaderboard } from "./routes/leaderboard/page";
 
 const App = () => {
 	const [pathname, setPathname] = createSignal(window.location.pathname);
