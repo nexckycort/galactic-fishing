@@ -2,9 +2,6 @@
 
 :root {
   --background: oklch(1 0 0);
-
-  --muted: oklch(0.97 0 0);
-
   --border: oklch(0.92 0 0);
   --ring: oklch(0.14 0 0);
   --terminal-green: oklch(0.87 0.294827 142.4953);
@@ -14,9 +11,6 @@
 
 @theme inline {
   --color-background: var(--background);
-
-  --color-muted: var(--muted);
-
   --color-border: var(--border);
   --color-ring: var(--ring);
   --color-terminal-green: var(--terminal-green);
