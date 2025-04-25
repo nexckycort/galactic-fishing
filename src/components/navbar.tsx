@@ -58,20 +58,6 @@ export const Navbar = ({ pathname, setPathname }: NavbarProps) => {
 					</div>
 				</div>
 			</div>
-
-			<div class="md:hidden border-t border-border/50 bg-background/50">
-				<div class="container mx-auto px-4">
-					<div class="flex justify-end py-2">
-						<button
-							type="button"
-							class="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-medium py-1.5 px-3 rounded-md transition-all duration-200 flex items-center gap-1.5 text-sm shadow-md hover:shadow-lg"
-						>
-							<GamepadIcon class="h-3.5 w-3.5" />
-							<span>Play Now</span>
-						</button>
-					</div>
-				</div>
-			</div>
 		</nav>
 	);
 };
