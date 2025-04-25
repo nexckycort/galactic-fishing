@@ -1,9 +1,17 @@
-import { For, createResource } from 'solid-js';
+import { For, createEffect, createResource } from 'solid-js';
 
 import { fetchLeaderboard } from './api';
 
 export const Leaderboard = () => {
   const [data] = createResource(fetchLeaderboard);
+
+  let endRef: HTMLDivElement | undefined;
+  createEffect(() => {
+    data();
+    if (endRef) {
+      endRef.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
 
   return (
     <div class="terminal-section">
@@ -49,6 +57,8 @@ export const Leaderboard = () => {
           <span class="text-terminal-green">clear</span> to return to terminal
         </p>
       </div>
+
+      <div ref={endRef} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
-import { For, createResource, createSignal } from 'solid-js';
+import { For, createEffect, createResource } from 'solid-js';
 
-import { type MarketItem, fetchMarket } from './api';
+import { fetchMarket } from './api';
 
 type ItemType =
   | 'fishing_rod'
@@ -17,29 +17,15 @@ const itemStyles: Record<ItemType, string> = {
 
 export const Market = () => {
   const [data] = createResource(fetchMarket);
-  const [notification, setNotification] = createSignal<string | null>(null);
 
-  const handleBuy = (item: MarketItem) => {
-    setNotification(`Attempting to purchase: ${item.name}...`);
+  let endRef: HTMLDivElement | undefined;
+  createEffect(() => {
+    data();
 
-    setTimeout(() => {
-      const success = Math.random() > 0.3;
-
-      if (success) {
-        setNotification(
-          `Transaction complete. ${item.name} added to inventory.`,
-        );
-      } else {
-        setNotification(
-          `Transaction failed. Insufficient funds for ${item.name}.`,
-        );
-      }
-
-      setTimeout(() => {
-        setNotification(null);
-      }, 3000);
-    }, 1000);
-  };
+    if (endRef) {
+      endRef.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
 
   return (
     <div class="terminal-section">
@@ -50,14 +36,6 @@ export const Market = () => {
           Available items for purchase. Use at your own risk.
         </p>
       </div>
-
-      {notification() && (
-        <div class="mb-4 p-2 bg-terminal-dim/10 border-l-2 border-terminal-cyan">
-          <p class="text-terminal-cyan">
-            <span class="text-terminal-green" /> {notification()}
-          </p>
-        </div>
-      )}
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <For each={data()}>
@@ -83,7 +61,6 @@ export const Market = () => {
                 </p>
                 <button
                   type="button"
-                  onClick={() => handleBuy(item)}
                   class="px-3 py-1 border border-terminal-green text-terminal-green hover:bg-terminal-green/20 focus:outline-none focus:ring-1 focus:ring-terminal-green"
                 >
                   [ BUY ]
@@ -93,6 +70,8 @@ export const Market = () => {
           )}
         </For>
       </div>
+
+      <div ref={endRef} />
     </div>
   );
 };

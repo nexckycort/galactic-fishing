@@ -1,4 +1,4 @@
-import { For, createEffect, createSignal, onCleanup } from 'solid-js';
+import { For, createSignal } from 'solid-js';
 
 import { Terminal } from './components/terminal';
 import { Leaderboard } from './routes/leaderboard/page';
@@ -13,22 +13,6 @@ const App = () => {
   const [historyIndex, setHistoryIndex] = createSignal(-1);
 
   let inputRef: HTMLInputElement | undefined;
-
-  createEffect(() => {
-    if (inputRef) {
-      inputRef.focus();
-    }
-
-    const handleClick = () => {
-      if (inputRef) {
-        inputRef.focus();
-      }
-    };
-
-    window.addEventListener('click', handleClick);
-
-    onCleanup(() => window.removeEventListener('click', handleClick));
-  });
 
   const executeCommand = (cmd: string) => {
     const trimmedCmd = cmd.trim().toLowerCase();
@@ -61,6 +45,10 @@ const App = () => {
 
     setCommandInput('');
     setHistoryIndex(-1);
+
+    if (inputRef) {
+      inputRef.focus();
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
