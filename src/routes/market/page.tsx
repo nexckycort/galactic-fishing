@@ -21,7 +21,6 @@ export const Market = () => {
   let endRef: HTMLDivElement | undefined;
   createEffect(() => {
     data();
-
     if (endRef) {
       endRef.scrollIntoView({ behavior: 'smooth' });
     }

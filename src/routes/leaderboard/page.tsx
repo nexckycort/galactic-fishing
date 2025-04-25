@@ -51,13 +51,6 @@ export const Leaderboard = () => {
         </table>
       </div>
 
-      <div class="mt-6 text-terminal-dim">
-        <p class="text-sm">
-          <span class="text-terminal-cyan">&gt;</span> Type{' '}
-          <span class="text-terminal-green">clear</span> to return to terminal
-        </p>
-      </div>
-
       <div ref={endRef} />
     </div>
   );

@@ -4,81 +4,71 @@ import { Terminal } from './components/terminal';
 import { Leaderboard } from './routes/leaderboard/page';
 import { Market } from './routes/market/page';
 
+type CommandLine =
+  | { type: 'text'; content: string }
+  | { type: 'component'; name: 'leaderboard' | 'market' };
+
 const App = () => {
-  const [activeSection, setActiveSection] = createSignal<
-    'none' | 'leaderboard' | 'market'
-  >('none');
   const [commandInput, setCommandInput] = createSignal('');
-  const [commandHistory, setCommandHistory] = createSignal<string[]>([]);
-  const [historyIndex, setHistoryIndex] = createSignal(-1);
+  const [commandHistory, setCommandHistory] = createSignal<CommandLine[]>([]);
 
   let inputRef: HTMLInputElement | undefined;
+  let endRef: HTMLDivElement | undefined;
 
   const executeCommand = (cmd: string) => {
     const trimmedCmd = cmd.trim().toLowerCase();
 
-    setCommandHistory((prev) => [...prev, `> ${cmd}`]);
+    setCommandHistory((prev) => [
+      ...prev,
+      { type: 'text', content: `> ${cmd}` },
+    ]);
 
     if (trimmedCmd === 'leaderboard' || trimmedCmd === 'ls') {
-      setActiveSection('leaderboard');
-      setCommandHistory((prev) => [...prev, 'Accessing leaderboard data...']);
+      setCommandHistory((prev) => [
+        ...prev,
+        { type: 'text', content: 'Accessing leaderboard data...' },
+        { type: 'component', name: 'leaderboard' },
+      ]);
     } else if (trimmedCmd === 'market' || trimmedCmd === 'shop') {
-      setActiveSection('market');
-      setCommandHistory((prev) => [...prev, 'Connecting to black market...']);
+      setCommandHistory((prev) => [
+        ...prev,
+        { type: 'text', content: 'Connecting to black market...' },
+        { type: 'component', name: 'market' },
+      ]);
     } else if (trimmedCmd === 'clear' || trimmedCmd === 'cls') {
       setCommandHistory([]);
-      setActiveSection('none');
     } else if (trimmedCmd === 'help') {
       setCommandHistory((prev) => [
         ...prev,
-        'Available commands:',
-        '  leaderboard, ls - View hacker rankings',
-        '  market, shop - Access black market',
-        '  clear, cls - Clear terminal',
-        '  help - Show this help message',
+        { type: 'text', content: 'Available commands:' },
+        { type: 'text', content: '  leaderboard, ls - View hacker rankings' },
+        { type: 'text', content: '  market, shop - Access black market' },
+        { type: 'text', content: '  clear, cls - Clear terminal' },
+        { type: 'text', content: '  help - Show this help message' },
       ]);
     } else if (trimmedCmd === '') {
       // Do nothing for empty command
     } else {
-      setCommandHistory((prev) => [...prev, `Command not found: ${cmd}`]);
+      setCommandHistory((prev) => [
+        ...prev,
+        { type: 'text', content: `Command not found: ${cmd}` },
+      ]);
     }
 
     setCommandInput('');
-    setHistoryIndex(-1);
 
     if (inputRef) {
       inputRef.focus();
+    }
+
+    if (endRef) {
+      endRef.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
       executeCommand(commandInput());
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      const currentHistoryIndex = historyIndex();
-      if (currentHistoryIndex < commandHistory().length - 1) {
-        const newIndex = currentHistoryIndex + 1;
-        setHistoryIndex(newIndex);
-        const cmd = commandHistory()[commandHistory().length - 1 - newIndex];
-        if (cmd?.startsWith('> ')) {
-          setCommandInput(cmd.substring(2));
-        }
-      }
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      const currentHistoryIndex = historyIndex();
-      if (currentHistoryIndex > 0) {
-        const newIndex = currentHistoryIndex - 1;
-        setHistoryIndex(newIndex);
-        const cmd = commandHistory()[commandHistory().length - 1 - newIndex];
-        if (cmd?.startsWith('> ')) {
-          setCommandInput(cmd.substring(2));
-        }
-      } else {
-        setHistoryIndex(-1);
-        setCommandInput('');
-      }
     }
   };
 
@@ -95,7 +85,7 @@ const App = () => {
           </p>
         </header>
 
-        <div class="flex-1 overflow-auto mb-4">
+        <div class="flex-1 overflow-y-auto mb-4">
           <div class="terminal-output space-y-1">
             {commandHistory().length === 0 && (
               <p class="text-terminal-dim">
@@ -104,30 +94,32 @@ const App = () => {
               </p>
             )}
             <For each={commandHistory()}>
-              {(line) => (
-                <p
-                  class={
-                    line.startsWith('>')
-                      ? 'text-terminal-cyan'
-                      : 'text-terminal-green'
-                  }
-                >
-                  {line}
-                </p>
-              )}
+              {(line) => {
+                if (line.type === 'text') {
+                  return (
+                    <p
+                      class={
+                        line.content.startsWith('>')
+                          ? 'text-terminal-cyan'
+                          : 'text-terminal-green'
+                      }
+                    >
+                      {line.content}
+                    </p>
+                  );
+                }
+                if (line.type === 'component') {
+                  return (
+                    <div class="mt-4 border-t border-terminal-dim pt-4">
+                      {line.name === 'leaderboard' && <Leaderboard />}
+                      {line.name === 'market' && <Market />}
+                    </div>
+                  );
+                }
+                return null;
+              }}
             </For>
           </div>
-
-          {activeSection() === 'leaderboard' && (
-            <div class="mt-4 border-t border-terminal-dim pt-4">
-              <Leaderboard />
-            </div>
-          )}
-          {activeSection() === 'market' && (
-            <div class="mt-4 border-t border-terminal-dim pt-4">
-              <Market />
-            </div>
-          )}
         </div>
 
         <div class="flex items-center border-t border-terminal-dim pt-4">
@@ -151,14 +143,8 @@ const App = () => {
             autocomplete="off"
             autocapitalize="off"
           />
+          <div ref={endRef} />
         </div>
-
-        <footer class="mt-4 text-terminal-dim text-xs">
-          <p>
-            System: Running on secure connection | Memory usage: 42.3MB | CPU:
-            12%
-          </p>
-        </footer>
       </div>
     </Terminal>
   );
