@@ -138,6 +138,14 @@ const App = () => {
             value={commandInput()}
             onInput={(e) => setCommandInput(e.currentTarget.value)}
             onKeyDown={handleKeyDown}
+            onFocus={() => {
+              setTimeout(() => {
+                inputRef?.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'center',
+                });
+              }, 150);
+            }}
             class="flex-1 bg-transparent border-none outline-none text-terminal-green font-mono"
             spellcheck={false}
             autocomplete="off"
