@@ -1,3 +1,5 @@
+import { API_URL } from '../../config/environment';
+
 interface MarketResponse {
   items: MarketItem[];
 }
@@ -20,9 +22,9 @@ const images: {
 };
 
 export const fetchMarket = async () => {
-  const response: MarketResponse = await fetch(
-    'https://api-game.bloque.app/game/market',
-  ).then((res) => res.json());
+  const response: MarketResponse = await fetch(`${API_URL}/game/market`).then(
+    (res) => res.json(),
+  );
   const marketData = response.items.map((m) => ({
     ...m,
     image: images[m.type] ?? '❗',

@@ -8,7 +8,9 @@
     "build:rsdoctor": "RSDOCTOR=true pnpm build",
     "check": "biome check --write",
     "dev": "rsbuild dev --open",
-    "preview": "rsbuild preview"
+    "preview": "rsbuild preview",
+    "typecheck": "tsc --noEmit",
+    "deploy": "pnpm run build && wrangler pages deploy"
   },
   "dependencies": {
     "lucide-solid": "^0.503.0",
@@ -23,6 +25,7 @@
     "@rsdoctor/rspack-plugin": "^1.0.2",
     "@tailwindcss/postcss": "^4.1.4",
     "tailwindcss": "^4.1.4",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "wrangler": "^4.13.2"
   }
 }
