@@ -12,7 +12,7 @@ export default defineConfig({
 		pluginSolid(),
 	],
 	html: {
-		title: "Galactic Fishing",
+		template: "./public/index.html",
 	},
 	tools: {
 		rspack: {
