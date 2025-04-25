@@ -99,7 +99,7 @@ const App = () => {
       <div class="min-h-screen w-full bg-black text-terminal-green font-mono p-4 relative overflow-hidden flex flex-col">
         <header class="mb-6">
           <h1 class="text-2xl md:text-3xl lg:text-4xl text-terminal-green glitch-text">
-            TERMINAL_ACCESS v1.1
+            GALACTIC_FISHING v1.1
           </h1>
           <p class="text-terminal-dim mt-1 text-sm md:text-base">
             <span class="blink">█</span> Connection established:{' '}
