@@ -1,0 +1,25 @@
+{
+	"name": "galactic-fishing",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "rsbuild build",
+		"build:rsdoctor": "RSDOCTOR=true pnpm build",
+		"dev": "rsbuild dev --open",
+		"preview": "rsbuild preview"
+	},
+	"dependencies": {
+		"lucide-solid": "^0.503.0",
+		"solid-js": "^1.9.5"
+	},
+	"devDependencies": {
+		"@rsbuild/core": "^1.3.1",
+		"@rsbuild/plugin-babel": "^1.0.4",
+		"@rsbuild/plugin-solid": "^1.0.5",
+		"@rsdoctor/rspack-plugin": "^1.0.2",
+		"@tailwindcss/postcss": "^4.1.4",
+		"tailwindcss": "^4.1.4",
+		"typescript": "^5.8.2"
+	}
+}
