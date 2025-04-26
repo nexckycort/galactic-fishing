@@ -1,13 +1,14 @@
 import './global.css';
 
-import { fetchAndRenderMarket } from './components/market';
 import { fetchAndLeaderboard } from './components/leaderboard';
+import { fetchAndRenderMarket } from './components/market';
+import { doc, isMobileScreen } from './utils/utils';
 
-const terminal = document.getElementById('terminal') as HTMLElement;
-const cmdInput = document.getElementById('cmd') as HTMLInputElement;
+const terminal = doc.getElementById('terminal') as HTMLElement;
+const cmdInput = doc.getElementById('cmd') as HTMLInputElement;
 
 const log = (text: string) => {
-  const line = document.createElement('div');
+  const line = doc.createElement('div');
   line.textContent = `> ${text}`;
   terminal.appendChild(line);
   terminal.scrollTop = terminal.scrollHeight;
@@ -59,7 +60,10 @@ cmdInput.addEventListener('keydown', async (e) => {
   if (e.key === 'Enter') {
     const input = cmdInput.value.trim();
     log(input);
-    cmdInput.blur();
+
+    if (isMobileScreen()) {
+      cmdInput.blur();
+    }
 
     cmdInput.value = '';
 
@@ -89,7 +93,7 @@ cmdInput.addEventListener('focus', () => {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('/service-worker.js')
+      .register('/sw.js')
       .catch((err) => console.error('SW registration failed:', err));
   });
 }

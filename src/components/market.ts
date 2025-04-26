@@ -1,4 +1,5 @@
 import { API_URL } from '../config/environment';
+import { doc } from '../utils/utils';
 
 type ItemType =
   | 'fishing_rod'
@@ -35,7 +36,7 @@ const images: {
 };
 
 const fetchMarket = async () => {
-  const response: MarketResponse = await fetch(`${API_URL}/game/market`).then(
+  const response: MarketResponse = await fetch(`${API_URL}/market`).then(
     (res) => res.json(),
   );
   const marketData = response.items.map((m) => ({
@@ -79,7 +80,7 @@ export const fetchAndRenderMarket = async () => {
     return acc + temp;
   }, '');
 
-  const market = document.createElement('div');
+  const market = doc.createElement('div');
   market.innerHTML = `<div class="terminal-section">
       <div class="mb-4">
         <h2 class="text-xl text-terminal-cyan mb-2">// BLACK MARKET</h2>
@@ -88,9 +89,7 @@ export const fetchAndRenderMarket = async () => {
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        ${marketCards}
-      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${marketCards}</div>
       
     </div>`;
 

@@ -1,4 +1,5 @@
 import { API_URL } from '../config/environment';
+import { doc } from '../utils/utils';
 
 interface LeaderboardResponse {
   players: Player[];
@@ -14,7 +15,7 @@ interface Player {
 
 const fetchLeaderboard = async () => {
   const response: LeaderboardResponse = await fetch(
-    `${API_URL}/game/leaderboard`,
+    `${API_URL}/leaderboard`,
   ).then((res) => res.json());
   return response.players;
 };
@@ -33,7 +34,7 @@ export const fetchAndLeaderboard = async () => {
     return acc + temp;
   }, '');
 
-  const leaderboard = document.createElement('div');
+  const leaderboard = doc.createElement('div');
   leaderboard.innerHTML = `<div class="terminal-section">
       <div class="mb-4">
         <h2 class="text-xl text-terminal-cyan mb-2">// SYSTEM LEADERBOARD</h2>
@@ -53,9 +54,7 @@ export const fetchAndLeaderboard = async () => {
               <th class="py-1 px-2 text-right">GOLD</th>
             </tr>
           </thead>
-          <tbody>
-            ${leaderboardRows}
-          </tbody>
+          <tbody>${leaderboardRows}</tbody>
         </table>
       </div>
     </div>`;

@@ -1,8 +1,10 @@
+import { GenerateSW } from '@aaroon/workbox-rspack-plugin';
 import { defineConfig } from '@rsbuild/core';
 import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
-import { GenerateSW } from '@aaroon/workbox-rspack-plugin';
+import { pluginHtmlMinifierTerser } from 'rsbuild-plugin-html-minifier-terser';
 
 export default defineConfig({
+  plugins: [pluginHtmlMinifierTerser()],
   html: {
     template: './public/index.html',
   },
@@ -10,7 +12,7 @@ export default defineConfig({
     rspack: {
       plugins: [
         new GenerateSW({
-          swDest: 'service-worker.js',
+          swDest: 'sw.js',
           clientsClaim: true,
           skipWaiting: true,
           maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
