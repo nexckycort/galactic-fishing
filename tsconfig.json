@@ -1,18 +1,16 @@
 {
   "compilerOptions": {
     "lib": ["DOM", "ES2020"],
-    "jsx": "preserve",
     "target": "ES2020",
     "noEmit": true,
     "skipLibCheck": true,
-    "jsxImportSource": "solid-js",
     "useDefineForClassFields": true,
 
     /* modules */
     "module": "ESNext",
+    "moduleResolution": "bundler",
     "isolatedModules": true,
     "resolveJsonModule": true,
-    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
 
     /* type checking */

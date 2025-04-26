@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta name="theme-color" content="9810fa" />
+    <meta name="theme-color" content="#9810fa" />
 
     <meta name="description" content="The galaxy does not need perfect heroes. It needs brave rebels." />
 
@@ -20,7 +20,22 @@
 </head>
 
 <body>
-    <div id="root"></div>
+    <div class="relative min-h-screen overflow-hidden">
+        <div
+            class="min-h-screen w-full bg-black text-terminal-green font-mono p-4 relative overflow-hidden flex flex-col">
+            <div class="log">> SYSTEM BOOTED. Type 'help' to begin.</div>
+
+            <div class="flex-1 overflow-y-auto mb-4">
+                <div id="terminal"></div>
+            </div>
+
+            <div class="flex items-center border-t border-terminal-dim pt-4">
+                <span class="text-terminal-cyan mr-2">$</span>
+                <input id="cmd" type="text" autocapitalize="none" autocomplete="off" spellcheck="false"
+                    class="flex-1 bg-transparent border-none outline-none text-terminal-green font-mono" />
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

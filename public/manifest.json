@@ -1,28 +1,23 @@
 {
-	"short_name": "Galactic Fish",
-	"name": "Galactic Fishing",
-	"description": "The galaxy does not need perfect heroes. It needs brave rebels.",
-	"display": "standalone",
-	"background_color": "#9810fa",
-	"theme_color": "#9810fa",
-	"icons": [
-		{
-			"src": "icons/512x512.webp",
-			"sizes": "512x512",
-			"type": "image/webp"
-		},
-		{
-			"src": "icons/192x192.webp",
-			"sizes": "192x192",
-			"type": "image/webp"
-		},
-		{
-			"src": "icons/180x180.webp",
-			"sizes": "180x180",
-			"type": "image/webp"
-		}
-	],
-	"orientation": "portrait",
-	"scope": "/",
-	"lang": "es"
+  "short_name": "Galactic Fish",
+  "name": "Galactic Fishing",
+  "description": "The galaxy does not need perfect heroes. It needs brave rebels.",
+  "display": "standalone",
+  "background_color": "#9810fa",
+  "theme_color": "#9810fa",
+  "icons": [
+    {
+      "src": "icons/192x192.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "icons/180x180.webp",
+      "sizes": "180x180",
+      "type": "image/webp"
+    }
+  ],
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "es"
 }
