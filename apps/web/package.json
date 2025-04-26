@@ -1,0 +1,29 @@
+{
+  "name": "@workspace/web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prebuild": "tsx scripts/prebuild.ts",
+    "build": "rsbuild build",
+    "build:rsdoctor": "RSDOCTOR=true pnpm build",
+    "check": "biome check --write",
+    "dev": "rsbuild dev --open",
+    "preview": "rsbuild preview",
+    "typecheck": "tsc --noEmit",
+    "deploy": "pnpm run build && wrangler pages deploy"
+  },
+  "devDependencies": {
+    "@aaroon/workbox-rspack-plugin": "catalog:",
+    "@biomejs/biome": "catalog:",
+    "@rsbuild/core": "catalog:",
+    "@rsdoctor/rspack-plugin": "catalog:",
+    "@tailwindcss/postcss": "catalog:",
+    "@types/node": "catalog:",
+    "rsbuild-plugin-html-minifier-terser": "catalog:",
+    "tailwindcss": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "wrangler": "catalog:"
+  }
+}

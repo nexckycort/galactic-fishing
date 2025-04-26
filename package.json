@@ -3,27 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": {
-    "prebuild": "tsx scripts/prebuild.ts",
-    "build": "rsbuild build",
-    "build:rsdoctor": "RSDOCTOR=true pnpm build",
-    "check": "biome check --write",
-    "dev": "rsbuild dev --open",
-    "preview": "rsbuild preview",
-    "typecheck": "tsc --noEmit",
-    "deploy": "pnpm run build && wrangler pages deploy"
-  },
   "devDependencies": {
-    "@aaroon/workbox-rspack-plugin": "^0.3.2",
-    "@biomejs/biome": "^1.9.4",
-    "@rsbuild/core": "^1.3.1",
-    "@rsdoctor/rspack-plugin": "^1.0.2",
-    "@tailwindcss/postcss": "^4.1.4",
-    "@types/node": "^22.15.2",
-    "rsbuild-plugin-html-minifier-terser": "^1.1.1",
-    "tailwindcss": "^4.1.4",
-    "tsx": "^4.19.3",
-    "typescript": "^5.8.2",
-    "wrangler": "^4.13.2"
+    "@biomejs/biome": "catalog:",
+    "typescript": "catalog:"
   }
 }
