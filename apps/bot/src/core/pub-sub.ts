@@ -1,4 +1,5 @@
 import { EventEmitter } from 'node:events';
+import type { Inventory } from '../types/inventory.ts';
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 type Handler<T = any> = (payload: T) => void;
@@ -8,8 +9,9 @@ export type Events = {
   'connection:closed': string;
   'connection:error': string;
   'fishing:ready': string;
+  'cooldown:started': number;
   '/fish': string;
-  '/inventory': { name: string };
+  '/inventory': Inventory;
 };
 
 class PubSub extends EventEmitter {

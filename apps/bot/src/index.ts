@@ -21,3 +21,7 @@ pubSub.subscribe('connection:error', (message) => {
 pubSub.subscribe('fishing:ready', () => {
   startFishingLoop(client);
 });
+
+pubSub.subscribe('/inventory', (inventory) => {
+  console.log(inventory);
+});

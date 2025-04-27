@@ -3,6 +3,7 @@ import { createConnection } from 'node:net';
 import { CODE } from '../config/environment.ts';
 import { pubSub } from '../core/pub-sub.ts';
 import { logger } from '../utils/logger.ts';
+import { parseInventory } from '../utils/parsers.ts';
 import { send } from '../utils/send.ts';
 import { extractCooldownSeconds } from '../utils/timers.ts';
 
@@ -19,22 +20,31 @@ export function connectToGame(host: string, port: number) {
 
     if (message.includes('Enter your Operative ID (invite code):')) {
       pubSub.publish('connection:open', '🌌 Conectado al servidor');
-      send(client, CODE);
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      send(client, CODE as any);
       canFish = true;
+      return;
+    }
+
+    if (message.includes('Inventory for ')) {
+      const inventory = parseInventory(message);
+      pubSub.publish('/inventory', inventory);
       return;
     }
 
     const cooldownSeconds = extractCooldownSeconds(message);
     if (cooldownSeconds !== null) {
       canFish = false;
+
       logger.success(`⏳ Cooldown de ${cooldownSeconds} segundos...`);
+      pubSub.publish('cooldown:started', cooldownSeconds);
+      send(client, '/inventory');
 
       setTimeout(() => {
         canFish = true;
         logger.success('✅ Cooldown terminado. Reanudando pesca...');
         pubSub.publish('fishing:ready', 'Done');
       }, cooldownSeconds * 1000);
-
       return;
     }
 

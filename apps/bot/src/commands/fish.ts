@@ -1,16 +1,16 @@
 import type { Socket } from 'node:net';
 
+import { gameState } from '../state/game-state.ts';
 import { logger } from '../utils/logger.ts';
 import { send } from '../utils/send.ts';
 
 const MAX_FISH_PER_CYCLE = 3;
 
-let isFishing = false;
 export function startFishingLoop(client: Socket) {
-  isFishing = true;
+  gameState.isFishing = true;
   let fishes = 0;
   const loop = setInterval(() => {
-    if (!isFishing) {
+    if (!gameState.isFishing) {
       clearInterval(loop);
       return;
     }
@@ -21,7 +21,7 @@ export function startFishingLoop(client: Socket) {
       fishes++;
     } else {
       clearInterval(loop);
-      isFishing = false;
+      gameState.isFishing = false;
       logger.success('🛑 Límite alcanzado, esperando cooldown...');
     }
   }, 1500);

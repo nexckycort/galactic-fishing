@@ -1,5 +1,7 @@
 import type { Socket } from 'node:net';
 
-export function send(client: Socket, command: string) {
+type Command = '/inventory' | '/fish';
+
+export function send(client: Socket, command: Command) {
   client.write(`${command}\n`);
 }
