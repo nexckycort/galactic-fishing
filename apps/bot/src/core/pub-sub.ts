@@ -12,6 +12,7 @@ export type Events = {
   'cooldown:started': number;
   '/fish': string;
   '/inventory': Inventory;
+  '/leader-board': any;
 };
 
 class PubSub extends EventEmitter {

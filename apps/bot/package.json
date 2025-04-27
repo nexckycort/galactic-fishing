@@ -7,6 +7,9 @@
     "dev": "tsx watch --env-file=.env src/index.ts",
     "start": "tsx --env-file=.env src/index.ts"
   },
+  "dependencies": {
+    "undici": "^7.8.0"
+  },
   "devDependencies": {
     "@tsconfig/node-lts": "^22.0.1",
     "@tsconfig/node-ts": "^23.6.1",
