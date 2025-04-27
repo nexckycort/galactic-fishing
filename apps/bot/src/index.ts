@@ -1,4 +1,4 @@
-import { connectToGame } from './client/connection.ts';
+import { connectToGame } from './client/connection-game.ts';
 import { graphFacebookApi } from './client/graph-facebook.ts';
 import { startFishingLoop } from './commands/fish.ts';
 import { HOST, PORT } from './config/environment.ts';
@@ -41,11 +41,16 @@ pubSub.subscribe('/inventory', (inventory) => {
 });
 
 pubSub.subscribe('/leader-board', (players) => {
-  console.log(players);
-  const firstWorthyTarget = players.find((player) => player.level > 1);
-  if (!firstWorthyTarget) return;
+  const otherPlayers = players.filter(
+    (player) => !player.name.includes('nexckycort') && player.level > 1,
+  );
 
-  const { name, level } = firstWorthyTarget;
+  const highestLevelPlayer = otherPlayers.reduce((highest, current) => {
+    return current.level > highest.level ? current : highest;
+  }, players[0]);
+  if (!highestLevelPlayer) return;
+
+  const { name, level } = highestLevelPlayer;
   setTimeout(() => {
     const message = `💀 Usando Poison of Leveling contra: ${name} - ${level}`;
     logger.success(message);

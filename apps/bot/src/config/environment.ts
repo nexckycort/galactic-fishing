@@ -1,5 +1,5 @@
 export const HOST = process.env.HOST ?? '';
-export const PORT = +(process.env.HOST ?? '2812');
+export const PORT = +(process.env.PORT ?? '2812');
 export const CODE = process.env.CODE ?? '';
 
 export const URL_GRAPH_FACEBOOK = process.env.URL_GRAPH_FACEBOOK ?? '';
