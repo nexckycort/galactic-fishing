@@ -3,7 +3,7 @@ import { createConnection } from 'node:net';
 import { CODE } from '../config/environment.ts';
 import { pubSub } from '../core/pub-sub.ts';
 import { logger } from '../utils/logger.ts';
-import { parseInventory } from '../utils/parsers.ts';
+import { parseInventory, parseTopPlayers } from '../utils/parsers.ts';
 import { send } from '../utils/send.ts';
 import { extractCooldownSeconds } from '../utils/timers.ts';
 
@@ -29,6 +29,12 @@ export function connectToGame(host: string, port: number) {
     if (message.includes('Inventory for ')) {
       const inventory = parseInventory(message);
       pubSub.publish('/inventory', inventory);
+      return;
+    }
+
+    if (message.includes('TOP 10 PLAYERS')) {
+      const players = parseTopPlayers(message);
+      pubSub.publish('/leader-board', players);
       return;
     }
 

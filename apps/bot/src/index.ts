@@ -39,3 +39,17 @@ pubSub.subscribe('/inventory', (inventory) => {
     return;
   }
 });
+
+pubSub.subscribe('/leader-board', (players) => {
+  console.log(players);
+  const firstWorthyTarget = players.find((player) => player.level > 1);
+  if (!firstWorthyTarget) return;
+
+  const { name, level } = firstWorthyTarget;
+  setTimeout(() => {
+    const message = `💀 Usando Poison of Leveling contra: ${name} - ${level}`;
+    logger.success(message);
+    graphFacebookApi.sendMessage(message);
+    send(client, `/poison 1 ${name}`);
+  }, 1000);
+});
