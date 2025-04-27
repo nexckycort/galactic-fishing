@@ -15,6 +15,7 @@ export type Events = {
   '/fish': string;
   '/inventory': Inventory;
   '/leader-board': Player[];
+  'command:manual': string;
 };
 
 class PubSub extends EventEmitter {

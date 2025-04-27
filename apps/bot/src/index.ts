@@ -1,11 +1,14 @@
 import { connectToGame } from './client/connection-game.ts';
+import { setupConsoleClient } from './client/console.ts';
 import { graphFacebookApi } from './client/graph-facebook.ts';
 import { startFishingLoop } from './commands/fish.ts';
+import { usePoisonAgainstTopPlayer } from './commands/leaderboard.ts';
 import { HOST, PORT } from './config/environment.ts';
 import { pubSub } from './core/pub-sub.ts';
 import { logger } from './utils/logger.ts';
 import { send } from './utils/send.ts';
 
+setupConsoleClient();
 const client = connectToGame(HOST, PORT);
 
 pubSub.subscribe('connection:open', (message) => {
@@ -41,20 +44,10 @@ pubSub.subscribe('/inventory', (inventory) => {
 });
 
 pubSub.subscribe('/leader-board', (players) => {
-  const otherPlayers = players.filter(
-    (player) => !player.name.includes('nexckycort') && player.level > 1,
-  );
+  usePoisonAgainstTopPlayer(players, client);
+});
 
-  const highestLevelPlayer = otherPlayers.reduce((highest, current) => {
-    return current.level > highest.level ? current : highest;
-  }, players[0]);
-  if (!highestLevelPlayer) return;
-
-  const { name, level } = highestLevelPlayer;
-  setTimeout(() => {
-    const message = `💀 Usando Poison of Leveling contra: ${name} - ${level}`;
-    logger.success(message);
-    graphFacebookApi.sendMessage(message);
-    send(client, `/poison 1 ${name}`);
-  }, 1000);
+pubSub.subscribe('command:manual', (command) => {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  send(client, command as any);
 });

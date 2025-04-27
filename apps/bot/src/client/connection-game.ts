@@ -2,6 +2,7 @@ import { createConnection } from 'node:net';
 
 import { CODE } from '../config/environment.ts';
 import { pubSub } from '../core/pub-sub.ts';
+import { gameState } from '../state/game-state.ts';
 import { logger } from '../utils/logger.ts';
 import { parseInventory, parseTopPlayers } from '../utils/parsers.ts';
 import { send } from '../utils/send.ts';
@@ -17,6 +18,10 @@ export function connectToGame(host: string, port: number) {
   client.on('data', (data) => {
     const message = data.toString();
     console.log(message);
+
+    if (gameState.stop) {
+      return;
+    }
 
     if (message.includes('Enter your Operative ID (invite code):')) {
       pubSub.publish('connection:open', '🌌 Conectado al servidor');
