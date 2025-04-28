@@ -29,12 +29,11 @@ function processFishQueue(
 export function handleInventoryActions(inventory: Inventory, client: Socket) {
   const { fishes, gold, items } = inventory;
 
-  if (fishes.length > 100) {
+  if (fishes.length > 1000) {
     graphFacebookApi.sendMessage(JSON.stringify(inventory, null, 2));
-    send(client, '/market');
   }
 
-  if (gold > 1000) {
+  if (gold > 5000) {
     send(client, '/market');
     return;
   }
