@@ -52,8 +52,9 @@ export function connectToGame(host: string, port: number) {
     }
 
     const cooldownSeconds = extractCooldownSeconds(message);
-    if (cooldownSeconds !== null) {
+    if (!gameState.cooldown && cooldownSeconds !== null) {
       canFish = false;
+      gameState.cooldown = true;
 
       logger.success(`⏳ Cooldown de ${cooldownSeconds} segundos...`);
       pubSub.publish('cooldown:started', cooldownSeconds);
@@ -61,6 +62,7 @@ export function connectToGame(host: string, port: number) {
 
       setTimeout(() => {
         canFish = true;
+        gameState.cooldown = false;
         logger.success('✅ Cooldown terminado. Reanudando pesca...');
         pubSub.publish('fishing:ready', 'Done');
       }, cooldownSeconds * 1000);

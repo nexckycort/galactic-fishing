@@ -1,6 +1,7 @@
 const state = {
   isFishing: false,
   stop: false,
+  cooldown: false,
 };
 
 export const gameState = {
@@ -15,5 +16,11 @@ export const gameState = {
   },
   set stop(value: boolean) {
     state.stop = value;
+  },
+  get cooldown() {
+    return state.cooldown;
+  },
+  set cooldown(value: boolean) {
+    state.cooldown = value;
   },
 };
