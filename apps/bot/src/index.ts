@@ -50,5 +50,5 @@ setInterval(
   () => {
     graphFacebookApi.sendMessage('we continue on fire');
   },
-  2 * 60 * 60 * 1000,
+  30 * 60 * 1000,
 );
