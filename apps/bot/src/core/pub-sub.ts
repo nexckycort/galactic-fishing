@@ -15,6 +15,8 @@ export type Events = {
   '/fish': string;
   '/inventory': Inventory;
   '/leader-board': Player[];
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  '/market': any;
   'command:manual': string;
 };
 

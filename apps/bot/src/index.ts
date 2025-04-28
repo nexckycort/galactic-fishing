@@ -2,6 +2,7 @@ import { connectToGame } from './client/connection-game.ts';
 import { setupConsoleClient } from './client/console.ts';
 import { graphFacebookApi } from './client/graph-facebook.ts';
 import { startFishingLoop } from './commands/fish.ts';
+import { handleInventoryActions } from './commands/inventory.ts';
 import { usePoisonAgainstTopPlayer } from './commands/leaderboard.ts';
 import { HOST, PORT } from './config/environment.ts';
 import { pubSub } from './core/pub-sub.ts';
@@ -31,16 +32,7 @@ pubSub.subscribe('fishing:ready', () => {
 });
 
 pubSub.subscribe('/inventory', (inventory) => {
-  const { fishes, items } = inventory;
-
-  if (fishes.length > 100) {
-    graphFacebookApi.sendMessage(JSON.stringify(inventory, null, 2));
-  }
-
-  if (items.length >= 1) {
-    send(client, '/leader-board');
-    return;
-  }
+  handleInventoryActions(inventory, client);
 });
 
 pubSub.subscribe('/leader-board', (players) => {
@@ -51,3 +43,10 @@ pubSub.subscribe('command:manual', (command) => {
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   send(client, command as any);
 });
+
+setInterval(
+  () => {
+    graphFacebookApi.sendMessage('we continue on fire');
+  },
+  2 * 60 * 60 * 1000,
+);

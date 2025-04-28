@@ -43,6 +43,14 @@ export function connectToGame(host: string, port: number) {
       return;
     }
 
+    if (message.includes('MARKET ITEMS')) {
+      setTimeout(() => {
+        logger.success('🛒 Comprando Poison of Leveling en el mercado...');
+        send(client, '/buy 2');
+      }, 1000);
+      return;
+    }
+
     const cooldownSeconds = extractCooldownSeconds(message);
     if (cooldownSeconds !== null) {
       canFish = false;
