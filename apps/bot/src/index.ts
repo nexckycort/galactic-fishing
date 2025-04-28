@@ -20,11 +20,13 @@ pubSub.subscribe('connection:open', (message) => {
 pubSub.subscribe('connection:closed', (message) => {
   logger.warn(message);
   graphFacebookApi.sendMessage(message);
+  process.exit(1);
 });
 
 pubSub.subscribe('connection:error', (message) => {
   logger.error(message);
   graphFacebookApi.sendMessage(message);
+  process.exit(1);
 });
 
 pubSub.subscribe('fishing:ready', () => {

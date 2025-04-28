@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "exports": "./dist/index.mjs",
   "scripts": {
+    "build": "tsx esbuild.config.ts",
     "dev": "tsx watch --env-file=.env src/index.ts",
     "start": "tsx --env-file=.env src/index.ts"
-  },
-  "dependencies": {
-    "undici": "^7.8.0"
   },
   "devDependencies": {
     "@tsconfig/node-lts": "^22.0.1",
     "@tsconfig/node-ts": "^23.6.1",
     "@types/node": "catalog:",
+    "esbuild": "^0.25.3",
     "tsx": "catalog:",
     "typescript": "catalog:"
   }

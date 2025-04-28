@@ -1,10 +1,4 @@
-import { type Dispatcher, request } from 'undici';
-
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-type RequestOptions = {
-  dispatcher?: Dispatcher;
-} & Omit<Dispatcher.RequestOptions, 'origin' | 'path' | 'method'> &
-  Partial<Pick<Dispatcher.RequestOptions, 'method'>>;
 type ApiResponse<T> = {
   data: T;
   statusCode: number;
@@ -26,20 +20,16 @@ export class ApiClient {
   }
 
   private async handlerResponse<T>(
-    path: string,
-    options: RequestOptions,
+    response: Response,
   ): Promise<ApiResponse<T>> {
-    const { statusCode, body } = await request(
-      `${this.urlApi}${path}`,
-      options,
-    );
+    const statusCode = response.status;
     if (![200, 201].includes(statusCode)) {
-      throw new Error(`Request failed with status code ${statusCode}`);
+      console.log(`Request failed with status code ${statusCode}`);
     }
-    const response = await body.json();
+    const data = await response.json();
 
     return {
-      data: response as T,
+      data: data as T,
       statusCode,
     };
   }
@@ -50,17 +40,19 @@ export class ApiClient {
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     data?: any,
   ): Promise<ApiResponse<T>> {
-    const headers = {
-      ...this.basicHeaders,
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
     };
 
-    const requestOptions: RequestOptions = {
+    const requestOptions: RequestInit = {
       method,
       headers,
-      body: JSON.stringify(data),
+      body: data ? JSON.stringify(data) : undefined,
     };
 
-    return this.handlerResponse<T>(path, requestOptions);
+    const response = await fetch(`${this.urlApi}${path}`, requestOptions);
+    return this.handlerResponse<T>(response);
   }
 
   post<T, D = unknown>(path: string, data?: D): Promise<ApiResponse<T>> {
