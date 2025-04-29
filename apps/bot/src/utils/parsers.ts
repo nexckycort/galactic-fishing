@@ -14,17 +14,23 @@ export function parseInventory(raw: string): Inventory {
   const fishes = fishLines
     .map((line) => {
       const match = line.match(
-        /(.+?)\s\(.+?\)\s-\sx\d+\s-\sXP:\s(\d+),\sGold:\s(\d+)/,
+        /(.+?)\s\(.+?\)\s-\sx(\d+)\s-\sXP:\s(\d+),\sGold:\s(\d+)/,
       );
       if (!match) return null;
-      const [, name, xp, gold] = match;
+      const [, name, amount, xp, gold] = match;
       return {
         name: name.trim(),
+        amount: Number(amount),
         xp: Number(xp),
         gold: Number(gold),
       };
     })
-    .filter(Boolean) as { name: string; xp: number; gold: number }[];
+    .filter(Boolean) as {
+    name: string;
+    amount: number;
+    xp: number;
+    gold: number;
+  }[];
 
   const itemStartIndex = lines.findIndex((line) => line.startsWith('Items:'));
   const itemLines = lines.slice(itemStartIndex + 1);
