@@ -1,4 +1,4 @@
-## Technical Test
+# Technical Test (40%)
 
 **Objective**
 
@@ -40,3 +40,44 @@ GET https://example.com/game/market
 | **Submission**             | Url deployment + Github-repo via submission page |
 
 > Hint — PWA + Service Worker helps with offline support.
+
+## Game Mechanics & Rules (40%)
+
+Remember, at the final bell, the player who has reached the highest level (with
+the most gold as a tiebreaker) will be crowned the champion of the stars. But
+the real prize? That could be a permanent spot on our engineering team... 🌌✨
+
+> Credentials and access instructions sent after invitation acceptance
+
+### How the game works (plain and simple)
+
+1. **Fish** — Type `/fish` to cast your line. You can do this **three times** in
+   a row, then wait **30 seconds** before fishing again.
+2. **Check your catch** — `/inventory` shows each fish’s rarity, XP, and gold
+   value.
+3. **Decide**
+   - `/eat <fish>` to turn the fish into XP and level up.
+   - `/sell <fish>` (or `/sell all`) to gain gold.
+4. **Buy or sabotage** — Spend gold in `/market` on:
+   - **Enhanced Fishing Rod** — better odds for rare fish.
+   - **Poison of Leveling** — permanently steals 1 level (+ that XP) from a
+     rival and slows their fishing by 30 s.
+   - **Poison of Delay** — adds 30 s to someone’s fishing cooldown (stacks up to
+     5 min).
+   - **Poison of Recovery** — removes 30 s of your own cooldown.
+
+   <aside>
+    💡
+
+   For more information /help
+
+   </aside>
+
+5. **Climb the leaderboard** — Levels decide rank; gold breaks ties.
+
+### Extra Rules
+
+- **Dynamic market** — Item prices can change, and limited-time items may appear
+  without notice.
+- **Alliances are allowed** — `/send-money <amount> <user>` to fund friends;
+  `/message <text>` to chat (costs 100 gold).

@@ -5,6 +5,7 @@
   "type": "module",
   "devDependencies": {
     "@biomejs/biome": "catalog:",
+    "sst": "catalog:",
     "typescript": "catalog:"
   }
 }
