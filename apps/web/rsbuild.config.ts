@@ -8,6 +8,12 @@ export default defineConfig({
   html: {
     template: './public/index.html',
   },
+  output: {
+    cleanDistPath: true,
+    distPath: {
+      root: '../../dist',
+    },
+  },
   tools: {
     rspack: {
       plugins: [
